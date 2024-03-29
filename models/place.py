@@ -2,18 +2,11 @@
 """ Place Module for HBNB project """
 import os
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
+from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
 
-from models.amenity import Amenity
+from models.amenity import Amenity, place_amenity
 from models.review import Review
-
-
-place_amenity = Table('place_amenity', Base.metadata,
-                      Column('place_id', String(60), ForeignKey(
-                          'places.id'), primary_key=True, nullable=False),
-                      Column('amenity_id', String(60), ForeignKey(
-                          'amenities_id'), primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -34,7 +27,7 @@ class Place(BaseModel, Base):
         reviews = relationship(
             'Review',
             cascade="all, delete, delete-orphan",
-            backref='user'
+            backref='place'
         )
         amenities = relationship(
             'Amenity',
