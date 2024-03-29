@@ -2,7 +2,8 @@
 """ State Module for HBNB project """
 import os
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Table, String, Integer, Float, ForeignKey, MetaData
+from sqlalchemy import Column, Table, String
+from sqlalchemy import Integer, Float, ForeignKey, MetaData
 from sqlalchemy.orm import relationship
 
 metadata_obj = MetaData()
