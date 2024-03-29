@@ -1,13 +1,12 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
 import os
-from models.base_model import BaseModel, Base, metadata
-from models.review import Review
+from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Table, String, Integer, Float, ForeignKey, MetaData
 from sqlalchemy.orm import relationship
 
-
-place_amenity = Table('place_amenity', metadata,
+metadata_obj = MetaData()
+place_amenity = Table('place_amenity', metadata_obj,
                       Column('place_id', String(60), ForeignKey(
                           'places.id'), primary_key=True, nullable=False),
                       Column('amenity_id', String(60), ForeignKey(
