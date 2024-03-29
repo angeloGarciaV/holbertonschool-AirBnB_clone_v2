@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
+import os
 
 
 class FileStorage:
@@ -43,17 +44,26 @@ class FileStorage:
             'State': State, 'City': City, 'Amenity': Amenity,
             'Review': Review
         }
-        try:
-            temp = {}
+        temp = {}
+        if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as f:
-                temp = json.load(f)
-                for key, val in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
-        except FileNotFoundError:
-            pass
+                try:
+                    temp = json.load(f)
+                    for key, val in temp.items():
+                        if val['__class__'] not in classes:
+                            raise KeyError(
+                                f"{val['__class__']} not found in classes")
+                        self.all()[key] = classes[val['__class__']](**val)
+                except FileNotFoundError:
+                    pass
+        else:
+            with open(FileStorage.__file_path, 'w') as f:
+                f.write("{}")
 
     def delete(self, obj=None):
         if obj == None:
             pass
         else:
+            if obj not in FileStorage.__objects:
+                raise KeyError(f"{obj} not found in FileStorage.__objects")
             del FileStorage.__objects[obj]

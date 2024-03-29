@@ -33,12 +33,15 @@ class BaseModel:
                         setattr(self, key, datetime.fromisoformat(value))
                     else:
                         setattr(self, key, value)
-            if not hasattr(kwargs, 'id'):
+            if 'id' not in kwargs:
                 setattr(self, 'id', str(uuid.uuid4()))
-            if not hasattr(kwargs, 'created_at'):
+                raise KeyError
+            if 'created_at' not in kwargs:
                 setattr(self, 'created_at', datetime.now())
-            if not hasattr(kwargs, 'updated_at'):
+                raise KeyError
+            if 'updated_at' not in kwargs:
                 setattr(self, 'updated_at', datetime.now())
+                raise KeyError
 
     def __str__(self):
         """Returns a string representation of the instance"""

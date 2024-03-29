@@ -20,5 +20,5 @@ class City(BaseModel, Base):
             backref='cities'
         )
     else:
-        mame = ""
+        name = ""
         state_id = ""
