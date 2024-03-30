@@ -2,11 +2,19 @@
 """ Place Module for HBNB project """
 import os
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
 
 from models.amenity import Amenity, place_amenity
 from models.review import Review
+
+
+if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+    place_amenity = Table('place_amenity', Base.metadata_obj,
+                          Column('place_id', String(60), ForeignKey(
+                              'places.id'), primary_key=True, nullable=False),
+                          Column('amenity_id', String(60), ForeignKey(
+                              'amenities_id'), primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -50,11 +58,6 @@ class Place(BaseModel, Base):
         @property
         def amenities(self):
             """Returns the amenities of the current Place"""
-            from models import storage
-            place_amenities = []
-            for value in storage.all(Amenity).values():
-                if value.id in self.amenity_ids:
-                    place_amenities.append(value)
             return self.amenity_ids
 
         @amenities.setter
@@ -71,7 +74,8 @@ class Place(BaseModel, Base):
             """Returns the reviews of this Place"""
             from models import storage
             reviews_of_place = []
-            for value in storage.all(Review).values():
-                if value.place_id == self.id:
+            for key, value in storage.all().items():
+                cls = key.split('.')[0]
+                if cls == 'Review' and value.place_id == self.id:
                     reviews_of_place.append(value)
             return reviews_of_place
