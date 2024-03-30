@@ -113,36 +113,43 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
-        """ Create an object of any class"""
+    def do_create(self, line):
+        """
+        Create a new class instance with given keys/values and print its id.
+        """
         try:
-            class_name = args.split(" ")[0]
-        except IndexError:
-            pass
-        if not class_name:
-            print("** class name missing **")
-            return
-        elif class_name not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        params = args.split(" ")
-        new_instance = eval(class_name)()
-        for i in range(1, len(params)):
-            key, value = tuple(params[i].split("="))
-            if value.startswith('"'):
-                value.strip('"').replace("_", " ")
-            else:
-                try:
-                    value = eval(value)
-                except Exception as e:
-                    print(f"Couldn't create with value: {e}")
-                    pass
-            if hasattr(new_instance, key):
-                setattr(new_instance, key, value)
+            if not line:
+                raise SyntaxError()
+            my_list = line.split(" ")
 
-        storage.new(new_instance)
-        print(new_instance.id)
-        new_instance.save()
+            kwargs = {}
+            for i in range(1, len(my_list)):
+                key, value = tuple(my_list[i].split("="))
+                if value[0] == '"':
+                    value = value.strip('"').replace("_", " ")
+                else:
+                    try:
+                        value = eval(value)
+                    except (SyntaxError, NameError):
+                        continue
+                kwargs[key] = value
+
+            if kwargs == {}:
+                raise SyntaxError("Missing arguments for create command")
+
+            class_name = my_list[0]
+            if class_name not in self.__classes:
+                raise NameError(f"Class '{class_name}' doesn't exist")
+
+            obj = eval(class_name)(**kwargs)
+            storage.new(obj)
+            print(obj.id)
+            obj.save()
+
+        except SyntaxError:
+            print("** Missing arguments for create command **")
+        except NameError as e:
+            print(f"** {e} **")
 
     def help_create(self):
         """ Help information for the create method """
