@@ -84,3 +84,7 @@ class FileStorage:
         if cls in classes.values():
             data = self.all(cls)
         return len(data)
+
+    def close(self):
+        """reload data"""
+        self.reload()
