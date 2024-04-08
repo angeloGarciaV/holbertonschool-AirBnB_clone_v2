@@ -9,13 +9,13 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@app.route("/")
-def HelloHBNB():
+@app.route("/", strict_slashes=False)
+def index():
     """Function to start a Flask web app with a return of 'Hello HBNB!'"""
     return "Hello HBNB!"
 
 
-@app.route("/hbnb")
+@app.route("/hbnb", strict_slashes=False)
 def hbnb():
     """Function to start a Flask web app with a return of '/hbnb'"""
     return "/hbnb"
