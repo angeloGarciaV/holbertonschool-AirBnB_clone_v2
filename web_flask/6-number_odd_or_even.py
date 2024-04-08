@@ -56,5 +56,16 @@ def numberTemplate(n):
     return render_template("5-number.html", tempNumber=number)
 
 
+@app.route("/number_odd_or_even/<n>", strict_slashes=False)
+def oddOrEven(n):
+    """Display wether n is odd or even by rendering in html"""
+    try:
+        number = int(n)
+    except Exception as e:
+        print(f"Error: {e}")
+        return f"Can't render template. {n} is not a number"
+    return render_template("6-number_odd_or_even.html", oddEvenNum=number)
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
