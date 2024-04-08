@@ -4,7 +4,7 @@
     Returns:
         string: a web page
     """
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -46,5 +46,16 @@ def ifInt(n):
     return f'{number} is a number'
 
 
+@app.route("/number_template/<n>", strict_slashes=False)
+def numberTemplate(n):
+    try:
+        number = int(n)
+    except Exception:
+        return f"Can't render template. {n} is not a number"
+    return render_template("5-number.html", tempNumber=number)
+
+
+# /number_template/<n > : display a HTML page only if n is an integer:
+# H1 tag: “Number: n” inside the tag BODY
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
