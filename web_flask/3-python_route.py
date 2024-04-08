@@ -28,5 +28,13 @@ def dispC(text):
     return f'C {newText}'
 
 
+@app.route("/python", defaults={'text': 'is_cool'}, strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def dispPython(text):
+    """Function with a return of '/python/<text>'"""
+    newText = text.replace('_', " ")
+    return f'Python {newText}'
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

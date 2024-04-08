@@ -28,5 +28,24 @@ def dispC(text):
     return f'C {newText}'
 
 
+@app.route("/python", defaults={'text': 'is_cool'}, strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def dispPython(text):
+    """Function with a return of '/python/<text>'"""
+    newText = text.replace('_', " ")
+    return f'Python {newText}'
+
+
+@app.route("/number/<n>", strict_slashes=False)
+def ifInt(n):
+    """display “n is a number” only if n is an integer"""
+    try:
+        number = int(n)
+    except Exception:
+        return f'{n} is not a number'
+
+    return f'{number} is a number'
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
