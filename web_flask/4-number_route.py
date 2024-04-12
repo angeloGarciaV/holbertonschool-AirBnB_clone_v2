@@ -4,45 +4,46 @@
     Returns:
         string: a web page
     """
-from flask import Flask
+from flask import Flask, abort
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 
-@app.route("/", strict_slashes=False)
+@app.route("/")
 def index():
     """Function to start a Flask web app with a return of 'Hello HBNB!'"""
     return "Hello HBNB!"
 
 
-@app.route("/hbnb", strict_slashes=False)
+@app.route("/hbnb")
 def hbnb():
     """Function to start a Flask web app with a return of '/hbnb'"""
     return "/hbnb"
 
 
-@app.route("/c/<text>", strict_slashes=False)
+@app.route("/c/<text>")
 def dispC(text):
     """Function with a return of '/c/<text>'"""
     newText = text.replace('_', " ")
     return f'C {newText}'
 
 
-@app.route("/python", defaults={'text': 'is_cool'}, strict_slashes=False)
-@app.route("/python/<text>", strict_slashes=False)
+@app.route("/python", defaults={'text': 'is_cool'})
+@app.route("/python/<text>")
 def dispPython(text):
     """Function with a return of '/python/<text>'"""
     newText = text.replace('_', " ")
     return f'Python {newText}'
 
 
-@app.route("/number/<n>", strict_slashes=False)
+@app.route("/number/<n>")
 def ifInt(n):
     """display “n is a number” only if n is an integer"""
     try:
         number = int(n)
-    except Exception:
-        return f'{n} is not a number'
+    except Exception as e:
+        abort(404)
     return f'{number} is a number'
 
 
