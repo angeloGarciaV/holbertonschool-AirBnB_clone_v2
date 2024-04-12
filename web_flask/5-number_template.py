@@ -54,7 +54,7 @@ def number_template(n):
         number = int(n)
     except Exception as e:
         abort(404)
-    return render_template("5-number.html", tempNumber=n)
+    return render_template("5-number.html", n=number)
 
 
 if __name__ == '__main__':
