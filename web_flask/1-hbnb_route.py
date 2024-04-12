@@ -19,7 +19,7 @@ def index():
 @app.route("/hbnb")
 def hbnb():
     """Function to start a Flask web app with a return of '/hbnb'"""
-    return "/hbnb"
+    return "HBNB"
 
 
 if __name__ == '__main__':
