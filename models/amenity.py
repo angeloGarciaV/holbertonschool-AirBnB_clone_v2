@@ -10,7 +10,8 @@ from sqlalchemy.orm import relationship
 class Amenity(BaseModel, Base):
     """Representation of Amenity """
     __tablename__ = 'amenities'
-    id = Column(Integer, primary_key=True)
+
     name = Column(String(128), nullable=False)
 
-    place_amenities = relationship("Place", secondary=place_amenity)
+    place_amenities = relationship(
+        "Place", secondary=place_amenity, back_populates='amenities')
