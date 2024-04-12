@@ -1,25 +1,35 @@
 #!/usr/bin/python3
-""" holds class State"""
-import models
+"""This is the state class"""
+from sqlalchemy.ext.declarative import declarative_base
 from models.base_model import BaseModel, Base
-from models.city import City
-from os import getenv
-from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String
+import models
+from models.city import City
+import shlex
 
 
 class State(BaseModel, Base):
-    """State class"""
-    __tablename__ = 'states'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(128), primary_key=True, nullable=False)
-    cities = relationship('City', cascade='all, delete', backref='state')
+    """This is the class for State
+    Attributes:
+        name: input name
+    """
+    __tablename__ = "states"
+    name = Column(String(128), nullable=False)
+    cities = relationship("City", cascade='all, delete, delete-orphan',
+                          backref="state")
 
     @property
     def cities(self):
-        """City getter"""
-        fs_cities = []
-        for city in models.storage.all(City).values():
-            if city.state_id == self.id:
-                fs_cities.append(city)
-        return fs_cities
+        var = models.storage.all()
+        lista = []
+        result = []
+        for key in var:
+            city = key.replace('.', ' ')
+            city = shlex.split(city)
+            if (city[0] == 'City'):
+                lista.append(var[key])
+        for elem in lista:
+            if (elem.state_id == self.id):
+                result.append(elem)
+        return (result)
