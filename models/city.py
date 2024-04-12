@@ -11,9 +11,8 @@ from sqlalchemy.orm import relationship
 class City(BaseModel, Base):
     """Representation of city """
     __tablename__ = 'cities'
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
-        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
-        name = Column(String(128), nullable=False)
-    else:
-        name = ''
-        state_id = ''
+    state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
+    name = Column(String(128), nullable=False)
+    places = relationship("Place",
+                          cascade="all, delete, delete-orphan",
+                          backref="cities")
