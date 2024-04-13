@@ -3,7 +3,6 @@
 from os import getenv
 from sqlalchemy import create_engine
 from models.base_model import Base
-from models.base_model import BaseModel
 from models.city import City
 from models.state import State
 from models.place import Place
@@ -21,7 +20,6 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """initialize the database storage engine"""
         self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".
                                       format(getenv("HBNB_MYSQL_USER"),
                                              getenv("HBNB_MYSQL_PWD"),
@@ -32,7 +30,6 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """ query on the current database session """
         if cls is None:
             objs = self.__session.query(State).all()
             objs.extend(self.__session.query(City).all())
@@ -68,5 +65,5 @@ class DBStorage:
         self.__session = Session()
 
     def close(self):
-        """ close session """
-        self.__session.remove()
+        """Close the session"""
+        self.__session.close()
