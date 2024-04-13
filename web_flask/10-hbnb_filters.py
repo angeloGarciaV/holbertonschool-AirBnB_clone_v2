@@ -12,16 +12,12 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 
-@app.route('/states')
-@app.route('/states/<id>')
-def states(id=None):
-    state_dic = storage.all(State)
-    state = None
-    for obj in state_dic.values():
-        if obj.id == id:
-            state = obj
-    return render_template('9-states.html', states=state_dic, id=id,
-                           state=state)
+@app.route('/hbnb_filters')
+def filters():
+    """ Function that returns a web page with the states and cities
+    """
+    states = storage.all(State)
+    return render_template('10-hbnb_filters.html', states=states)
 
 
 @app.teardown_appcontext
