@@ -64,10 +64,9 @@ def teardown_appcontext(exception):
 
 @app.route('/states_list')
 def states_list():
-    """Display a HTML page"""
-    states = sorted(storage.all(State).values(),
-                    key=lambda states: states.name)
-    return render_template('7-states_list.html', state=states)
+    """Display a list of states"""
+    states_list = storage.all(State).values()
+    return render_template('7-states_list.html', states=states_list)
 
 
 if __name__ == "__main__":
