@@ -56,17 +56,18 @@ def odd_or_even(n):
     return render_template("6-number_odd_or_even.html", n=n)
 
 
-@app.route('/states_list')
-def states_list():
-    """Display a HTML page"""
-    state_list = storage.all(State).values()
-    return render_template('7-states_list.html', states=state_list)
-
-
 @app.teardown_appcontext
 def teardown_appcontext(exception):
     """After each request, remove the SQLAlchemy Session"""
     storage.close()
+
+
+@app.route('/states_list')
+def states_list():
+    """Display a HTML page"""
+    states = sorted(storage.all(State).values(),
+                    key=lambda states: states.name)
+    return render_template('7-states_list.html', state=states)
 
 
 if __name__ == "__main__":
