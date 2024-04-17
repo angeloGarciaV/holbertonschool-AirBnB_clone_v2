@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="../static/styles/3-header.css">
 		<link rel="stylesheet" href="../static/styles/4-common.css">
 		<link rel="stylesheet" href="../static/styles/6-filters.css">
+    <link rel="shortcut icon" href="../static/images/icon.ico" type="image/x-icon">
 	</HEAD>
     <BODY>
 		<HEADER>
@@ -31,14 +32,17 @@
                       {% endfor %}
                       </UL>
                     </DIV>
-                  </DIV><DIV class="amenities">
+                  </DIV>
+                  <DIV class="amenities">
                     <H3>Amenities</H3>
                     <H4>&nbsp;</H4>
-                    <UL class="popover">
-                    {% for amenity in amenities.values()|sort(attribute="name") %}
-                      <LI>{{ amenity.name }}</LI>
-                    {% endfor %}
-                    </UL>
+                    <DIV class="popover">
+                      {% for amenity in amenities.values()|sort(attribute="name") %}
+                      <UL>
+                            <LI>{{ amenity.name }}</LI>
+                      </UL>
+                      {% endfor %}
+                    </DIV>
                   </DIV>
                 </SECTION>
               </DIV>
